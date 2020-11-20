@@ -2,32 +2,34 @@ package com.theviciousgames.dnsflusher;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.theviciousgames.dnsflusher.databinding.ActivityMainBinding;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
-    private Button flushDNSButton;
+    private ActivityMainBinding layoutBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        declareObjects();
+        setContentView(declareObjects());
+    }
+    protected View declareObjects() {
+        layoutBinding = ActivityMainBinding.inflate(getLayoutInflater());
+        View view = layoutBinding.getRoot();
         buttonFunctions();
+        return view;
     }
-
-    protected void declareObjects() {
-        flushDNSButton = findViewById(R.id.flushDNSButton);
-    }
-
     protected void buttonFunctions() {
-        flushDNSButton.setOnClickListener(new View.OnClickListener() {
+        layoutBinding.flushDNSButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
@@ -48,6 +50,12 @@ public class MainActivity extends AppCompatActivity {
                 }, 1000);
             }
         });
+        layoutBinding.goToWebsite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent goToWebsiteIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://theviciousgames.com"));
+                startActivity(goToWebsiteIntent);
+            }
+        });
     }
-
 }
